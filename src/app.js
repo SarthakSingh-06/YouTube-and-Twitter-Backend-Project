@@ -23,8 +23,13 @@ app.use(cors());
 
 // app.use(cors(corsOptions)); // cors with custom configuration
 
-
 // allow reading and setting cookies for client in a secure manner
 app.use(cookieParser()); // allow reading cookies sent by the client and make them available in req.cookies
+
+// import routes
+import userRouter from "./routes/user.routes.js";
+
+// routes declaration
+app.use("/api/v1/users", userRouter);
 
 export { app };
