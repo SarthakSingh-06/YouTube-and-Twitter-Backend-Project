@@ -1,8 +1,7 @@
 import { v2 as cloudinary } from "cloudinary";
 import fs from "node:fs"; // for unlinking files from local server on uploaded on cloudinary
 import "dotenv/config";
-import e from "cors";
-import { ApiError } from "./apiError";
+import { ApiError } from "./apiError.js";
 
 // configure cloudinary
 cloudinary.config({ 
