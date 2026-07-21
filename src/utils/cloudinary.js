@@ -2,6 +2,7 @@ import { v2 as cloudinary } from "cloudinary";
 import fs from "node:fs"; // for unlinking files from local server on uploaded on cloudinary
 import "dotenv/config";
 import e from "cors";
+import { ApiError } from "./apiError";
 
 // configure cloudinary
 cloudinary.config({ 
@@ -13,7 +14,7 @@ cloudinary.config({
 const uploadFileOnCloudinary = async (localFilePath) => {
     try {
         if (!localFilePath){
-            // throw path not found error if path does not exist
+            throw new ApiError(400, "file path not found");
         }
 
         // upload the file
