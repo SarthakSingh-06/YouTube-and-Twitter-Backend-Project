@@ -49,10 +49,9 @@ const userSchema = new Schema({
 }, { timestamps: true });
 
 // execute the middleware callback function just before the save event happens ( or just before anything changes in user schema )
-userSchema.pre("save", async function(next) {
-    if (!this.isModified("password")) return next(); // do nothing if password is not modified
+userSchema.pre("save", async function() {
+    if (!this.isModified("password")) return; // do nothing if password is not modified
     this.password = await bcrypt.hash(this.password, 12); // hash the password
-    next();
 });
 
 // add methods to user schema for checking password

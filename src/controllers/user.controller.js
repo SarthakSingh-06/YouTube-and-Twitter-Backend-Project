@@ -6,11 +6,11 @@ import { ApiResponse } from "../utils/apiResponse.js";
 
 const registerUser = asyncHandler(async (req, res) => {
     // take username, fullname, email, passoword and other details from user ( via frontend )
-    const { username, fullname, email, avatar } = req.body;
+    const { username, fullname, email, password } = req.body;
 
     // validate details
     if (
-        [ username, fullname, email, avatar ].some((field) =>  field?.trim() === "" )
+        [ username, fullname, email, password ].some((field) =>  field?.trim() === "" )
     ) {
         throw new ApiError(400, "all fields are required");
     }
@@ -27,7 +27,12 @@ const registerUser = asyncHandler(async (req, res) => {
 
     // get path for local file upload
     const avatarLocalPath = req.files?.avatar[0]?.path; // mandatory field
-    const coverImageLocalPath = req.files?.coverImage[0]?.path; // optional field
+    // const coverImageLocalPath = req.files?.coverImage[0]?.path;
+
+    let coverImageLocalPath; // optional field
+    if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0){
+        coverImageLocalPath = req.files.coverImage[0].path;
+    }
 
     // Check if avatar upload is successful
     if (!avatarLocalPath){

@@ -12,20 +12,17 @@ cloudinary.config({
 
 const uploadFileOnCloudinary = async (localFilePath) => {
     try {
-        if (!localFilePath){
-            throw new ApiError(400, "file path not found");
-        }
+        if (!localFilePath) return null;
 
         // upload the file
         const response = await cloudinary.uploader.upload(localFilePath, {
             resource_type: "auto", // identify resource type automatically
         });
-        console.log("UPLOAD RESPONSE:", response);
-        console.log("Public URL:", response.url);
+
+        fs.unlinkSync(localFilePath); // remove the file from local server after upload is successful
         return response;
     } catch (error) {
         // If upload fails
-        fs.unlinkSync(localFilePath); // unlink corrupted and maliscious files from local server
         return null;
     }
 };
